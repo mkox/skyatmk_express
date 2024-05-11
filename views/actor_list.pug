@@ -4,6 +4,31 @@ block content
   h1= title
 
   form(method='POST')
+    div.form-group
+      input.checkbox-input(type='checkbox', name='all-followed-for-random-users', id='all-followed-for-random-users')
+      label(for='all-followed-for-random-users') &nbsp;Get random followers of <b>all</b> stored followed
+    div.form-group
+      label(for='how-much-random-users') How much random users:
+        input#how-much-users.form-control(type='text', name='how-much-random-users' value=250 )
+      br
+      label(for='how-much-user-sites-together') How much user sites open together:
+        input#how-much-users.form-control(type='text', name='how-much-user-sites-together' value=20 )
+      br
+      label(for='keywords') Keywords (separated by comma and other punctuations):
+      input#how-much-users.form-control(type='text', name='keywords' value=20 )
+    div.form-group
+      input.checkbox-input(type='checkbox', name='remove-followed-by-standard-follower', id='remove-followed-by-standard-follower', checked)
+      label(for='remove-followed-by-standard-follower') &nbsp;Remove users already followed by standard follower.
+      br
+      input.checkbox-input(type='checkbox', name='remove-following-standard-follower', id='remove-following-standard-follower', checked)
+      label(for='remove-following-standard-follower') &nbsp;Remove users following the standard follower
+      br
+      input.checkbox-input(type='checkbox', name='remove-once-followed-by-standard-follower', id='remove-once-followed-by-standard-follower', checked)
+      label(for='remove-once-followed-by-standard-follower') &nbsp;Remove users once followed by standard follower.
+      br
+      input.checkbox-input(type='checkbox', name='show-despite-open-date exists', id='show-despite-open-date exists')
+      label(for='show-despite-open-date exists') &nbsp;Show users despite open date exists.
+
     button.btn.btn-primary(type='submit') Submit
 
   if errors
