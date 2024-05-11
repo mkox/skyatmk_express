@@ -1,4 +1,5 @@
 const AtpActor = require("../models/atp-actor");
+const FollowedAtpActor = require("../models/followed-atp-actor");
 
 const { body, validationResult } = require("express-validator");
 const asyncHandler = require("express-async-handler");
@@ -11,17 +12,21 @@ exports.index = asyncHandler(async (req, res, next) => {
 
 // Display list of actors.
 exports.actor_list_get = asyncHandler(async (req, res, next) => {
-  // const actors = await AtpActor.find({})
-  //   .exec();
+  const followedAtpActors = await FollowedAtpActor.find({})
+    .sort({ displayName: 1 })
+    .exec();
 
-  // res.render("actor_list", { title: "Actor List", actor_list: actors });
-  res.render("actor_list", { title: "Actor List", actor_list: [] });
+  res.render("actor_list", { title: "Actor List", followed_actors: followedAtpActors, actor_list: [] });
 });
 
 // Display list of actors.
 exports.actor_list_post = asyncHandler(async (req, res, next) => {
-  const actors = await AtpActor.find({})
-    .exec();
+  const [followedAtpActors, actors] = await Promise.all([
+    FollowedAtpActor.find({})
+      .sort({ displayName: 1 })
+      .exec(),
+    AtpActor.find({}).exec(),
+  ]);
 
-  res.render("actor_list", { title: "Actor List", actor_list: actors });
+  res.render("actor_list", { title: "Actor List", followed_actors: followedAtpActors, actor_list: actors });
 });
