@@ -11,6 +11,7 @@ const AtpActorSchema = new Schema({
   },
   actor: {},
   followedDids: [String],
+  standardFollower: {},
   baseActors: [],
   open: {},
 }, {
@@ -18,6 +19,16 @@ const AtpActorSchema = new Schema({
     collection: 'atp_actors'
   }
 );
+
+AtpActorSchema.index({ "$**": "text" }); // For searching in text fields.
+/**
+schema.index( // For searching in text fields.
+  { 'twUser.location': 'text' },
+  { 'twUser.description': 'text' },
+  { 'twUser.name': 'text' },
+  { 'twUser.username': 'text' }
+);
+*/
 
 // // Virtual for this book instance URL.
 // BookSchema.virtual("url").get(function () {

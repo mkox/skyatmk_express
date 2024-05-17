@@ -21,12 +21,25 @@ exports.actor_list_get = asyncHandler(async (req, res, next) => {
 
 // Display list of actors.
 exports.actor_list_post = asyncHandler(async (req, res, next) => {
+  var keywordsearch = { did: { $exists: true } };
+  if (req.body.keywords != '') {
+   keywordsearch = { $text: { $search: req.body.keywords } };
+  }
+
   const [followedAtpActors, actors] = await Promise.all([
     FollowedAtpActor.find({})
       .sort({ displayName: 1 })
       .exec(),
-    AtpActor.find({}).exec(),
+    AtpActor.aggregate([
+      { $match : keywordsearch }, // $text match only works, when on first place
+    ])
   ]);
 
-  res.render("actor_list", { title: "Actor List", followed_actors: followedAtpActors, actor_list: actors });
+  res.render("actor_list", { 
+    title: "Actor List", 
+    followed_actors: 
+    followedAtpActors, 
+    actor_list: actors,
+    keywords: req.body.keywords
+  });
 });
