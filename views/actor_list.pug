@@ -14,8 +14,8 @@ block content
         for actor in followed_actors
           option(value=actor._id) #{actor.displayName}
     div.form-group
-      label(for='how-much-random-users') How much random users:
-        input#how-much-users.form-control(type='text', name='how-much-random-users' value=250 )
+      label(for='how_much_random_users') How much random users:
+        input#how-much-users.form-control(type='text', name='how_much_random_users' value=numberOfUsers )
       br
       label(for='how-much-user-sites-together') How much user sites open together:
         input#how-much-users.form-control(type='text', name='how-much-user-sites-together' value=20 )

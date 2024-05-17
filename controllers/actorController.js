@@ -16,7 +16,12 @@ exports.actor_list_get = asyncHandler(async (req, res, next) => {
     .sort({ displayName: 1 })
     .exec();
 
-  res.render("actor_list", { title: "Actor List", followed_actors: followedAtpActors, actor_list: [] });
+  res.render("actor_list", { 
+    title: "Actor List", 
+    followed_actors: followedAtpActors, 
+    actor_list: [],
+    numberOfUsers: 250
+  });
 });
 
 // Display list of actors.
@@ -26,20 +31,27 @@ exports.actor_list_post = asyncHandler(async (req, res, next) => {
    keywordsearch = { $text: { $search: req.body.keywords } };
   }
 
+  var numberOfUsers = req.body.how_much_random_users;
+  var sampleSize = parseInt(numberOfUsers) * 10;
+
   const [followedAtpActors, actors] = await Promise.all([
     FollowedAtpActor.find({})
       .sort({ displayName: 1 })
       .exec(),
     AtpActor.aggregate([
       { $match : keywordsearch }, // $text match only works, when on first place
+      { $sample: { size: sampleSize } }
     ])
   ]);
+
+  var actorsFinal = actors.slice(0, parseInt(numberOfUsers));
 
   res.render("actor_list", { 
     title: "Actor List", 
     followed_actors: 
     followedAtpActors, 
-    actor_list: actors,
-    keywords: req.body.keywords
+    actor_list: actorsFinal,
+    keywords: req.body.keywords,
+    numberOfUsers: req.body.how_much_random_users
   });
 });
