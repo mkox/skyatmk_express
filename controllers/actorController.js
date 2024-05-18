@@ -20,7 +20,8 @@ exports.actor_list_get = asyncHandler(async (req, res, next) => {
     title: "Actor List", 
     followed_actors: followedAtpActors, 
     actor_list: [],
-    numberOfActors: 250
+    numberOfActors: 250,
+    howMuchActorSitesTogether: 20
   });
 });
 
@@ -30,7 +31,7 @@ exports.actor_list_post = asyncHandler(async (req, res, next) => {
   if (req.body.keywords != '') {
    keywordsearch = { $text: { $search: req.body.keywords } };
   }
-
+console.log('req.body: ', req.body);
   var numberOfActors = req.body.how_much_random_actors;
   var sampleSize = parseInt(numberOfActors) * 10;
 
@@ -52,6 +53,7 @@ exports.actor_list_post = asyncHandler(async (req, res, next) => {
     followedAtpActors, 
     actor_list: actorsFinal,
     keywords: req.body.keywords,
-    numberOfActors: req.body.how_much_random_actors
+    numberOfActors: req.body.how_much_random_actors,
+    howMuchActorSitesTogether: req.body.how_much_actor_sites_together
   });
 });

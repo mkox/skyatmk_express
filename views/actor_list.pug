@@ -15,13 +15,13 @@ block content
           option(value=actor._id) #{actor.displayName}
     div.form-group
       label(for='how_much_random_actors') How much random actors:
-        input#how_much_random_actors.form-control(type='text', name='how_much_random_actors' value=numberOfActors )
+        input#how_much_random_actors.form-control(type='text', name='how_much_random_actors', value=numberOfActors )
       br
       label(for='how_much_actor_sites_together') How much actor sites open together:
-        input#how_much_actor_sites_together.form-control(type='text', name='how_much_actor_sites_together' value=20 )
+        input#how_much_actor_sites_together.form-control(type='text', name='how_much_actor_sites_together', value=howMuchActorSitesTogether )
       br
       label(for='keywords') Keywords (separated by comma and other punctuations):
-      input#keywords.form-control(type='text', name='keywords' value=keywords)
+      input#keywords.form-control(type='text', name='keywords', value=keywords)
     div.form-group
       input#remove_followed_by_standard_follower.checkbox-input(type='checkbox', name='remove_followed_by_standard_follower', checked)
       label(for='remove_followed_by_standard_follower') &nbsp;Remove actors already followed by standard follower.
@@ -42,7 +42,13 @@ block content
       for error in errors
         li!= error.msg
 
+  br
+
   if actor_list.length
+    div.buttons-for-multiple-user-sites
+      each actor, i in actor_list
+        if (i+1) % howMuchActorSitesTogether == 0 || i == (actor_list.length - 1)
+          input.button-user-sites(type=button, value=i+1, onclick="open_win(this)")
     ul
       each actor in actor_list
         li #{actor.actor.displayName} - #{actor.actor.description}
