@@ -20,7 +20,7 @@ exports.actor_list_get = asyncHandler(async (req, res, next) => {
     title: "Actor List", 
     followed_actors: followedAtpActors, 
     actor_list: [],
-    numberOfUsers: 250
+    numberOfActors: 250
   });
 });
 
@@ -31,8 +31,8 @@ exports.actor_list_post = asyncHandler(async (req, res, next) => {
    keywordsearch = { $text: { $search: req.body.keywords } };
   }
 
-  var numberOfUsers = req.body.how_much_random_users;
-  var sampleSize = parseInt(numberOfUsers) * 10;
+  var numberOfActors = req.body.how_much_random_actors;
+  var sampleSize = parseInt(numberOfActors) * 10;
 
   const [followedAtpActors, actors] = await Promise.all([
     FollowedAtpActor.find({})
@@ -44,7 +44,7 @@ exports.actor_list_post = asyncHandler(async (req, res, next) => {
     ])
   ]);
 
-  var actorsFinal = actors.slice(0, parseInt(numberOfUsers));
+  var actorsFinal = actors.slice(0, parseInt(numberOfActors));
 
   res.render("actor_list", { 
     title: "Actor List", 
@@ -52,6 +52,6 @@ exports.actor_list_post = asyncHandler(async (req, res, next) => {
     followedAtpActors, 
     actor_list: actorsFinal,
     keywords: req.body.keywords,
-    numberOfUsers: req.body.how_much_random_users
+    numberOfActors: req.body.how_much_random_actors
   });
 });
