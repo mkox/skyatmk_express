@@ -2,6 +2,7 @@ extends layout
 
 block content
   h1= title
+  script(type='application/json' id='jsonActors')!= JSON.stringify(actor_list)
 
   form(method='POST')
     div.form-group
