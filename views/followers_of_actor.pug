@@ -1,0 +1,30 @@
+extends layout
+
+block content
+  h1= title
+
+  form(method='POST')
+    div.form-group
+      label(for='followed_actor') Add handle or DID of actor:
+      input#followed_actor.form-control(type='text', name='followed_actor', value=followed_actor)
+
+    button.btn.btn-primary(type='submit') Submit
+
+  if errors
+    ul
+      for error in errors
+        li!= error.msg
+
+  br
+
+  //- if actor_list.length
+  //-   div.buttons-for-multiple-user-sites
+  //-     each actor, i in actor_list
+  //-       if (i+1) % howMuchActorSitesTogether == 0 || i == (actor_list.length - 1)
+  //-         input.button-user-sites(type=button, value=i+1, onclick="open_win(this)")
+  //-   ul
+  //-     each actor in actor_list
+  //-       li #{actor.actor.displayName} - #{actor.actor.description}
+
+  //- else
+  //-   p There are no actors.

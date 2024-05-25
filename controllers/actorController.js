@@ -4,6 +4,8 @@ const FollowedAtpActor = require("../models/followed-atp-actor");
 const { body, validationResult } = require("express-validator");
 const asyncHandler = require("express-async-handler");
 
+const {getAllFollowers} = require("../lib/actor");
+
 exports.index = asyncHandler(async (req, res, next) => {
   res.render("index", {
     title: "Sky at MK - Home",
@@ -55,5 +57,28 @@ console.log('req.body: ', req.body);
     keywords: req.body.keywords,
     numberOfActors: req.body.how_much_random_actors,
     howMuchActorSitesTogether: req.body.how_much_actor_sites_together
+  });
+});
+
+exports.followers_of_actor_get = asyncHandler(async (req, res, next) => {
+  // const followedAtpActors = await FollowedAtpActor.find({})
+  //   .sort({ displayName: 1 })
+  //   .exec();
+
+  res.render("followers_of_actor", { 
+    title: "Store followers of an actor", 
+    followed_actor: ''
+  });
+});
+
+exports.followers_of_actor_post = asyncHandler(async (req, res, next) => {
+  // const followedAtpActors = await FollowedAtpActor.find({})
+  //   .sort({ displayName: 1 })
+  //   .exec();
+  getAllFollowers(req.body.followed_actor);
+
+  res.render("followers_of_actor", { 
+    title: "Store followers of an actor", 
+    followed_actor: req.body.followed_actor
   });
 });
