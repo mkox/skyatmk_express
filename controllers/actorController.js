@@ -4,7 +4,7 @@ const FollowedAtpActor = require("../models/followed-atp-actor");
 const { body, validationResult } = require("express-validator");
 const asyncHandler = require("express-async-handler");
 
-const {getAllFollowers} = require("../lib/actor");
+const {getAllFollowers, getFollowedActor} = require("../lib/actor");
 
 exports.index = asyncHandler(async (req, res, next) => {
   res.render("index", {
@@ -75,7 +75,9 @@ exports.followers_of_actor_post = asyncHandler(async (req, res, next) => {
   // const followedAtpActors = await FollowedAtpActor.find({})
   //   .sort({ displayName: 1 })
   //   .exec();
+
   getAllFollowers(req.body.followed_actor);
+  getFollowedActor(req.body.followed_actor);
 
   res.render("followers_of_actor", { 
     title: "Store followers of an actor", 
