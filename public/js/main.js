@@ -37,7 +37,7 @@ function open_win(element) {
 
   async function openSingleWindow (follower, isoDate) { 
     // window.open('https://twitter.com/' + follower.twUser.username);
-    window.open('https://bsky.app/');
+    window.open('https://bsky.app/profile/' + follower.did);
 
     // var openDateResult = await app.service('tfollow').update(follower.twUserId, 
     //   { 
