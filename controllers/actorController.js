@@ -76,8 +76,8 @@ exports.followers_of_actor_post = asyncHandler(async (req, res, next) => {
   //   .sort({ displayName: 1 })
   //   .exec();
 
-  getAllFollowers(req.body.followed_actor);
-  getFollowedActor(req.body.followed_actor);
+  var didOfFollowedActor = await getFollowedActor(req.body.followed_actor);
+  getAllFollowers(req.body.followed_actor, didOfFollowedActor);
 
   res.render("followers_of_actor", { 
     title: "Store followers of an actor", 
