@@ -60,6 +60,20 @@ app.use(cookieParser());
 //   })
 // );
 
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      "default-src": ["'self'"],
+      "script-src": ["'self'", "code.jquery.com", "cdn.jsdelivr.net", "http://localhost:3000/js/main.js", "'unsafe-inline'"],
+      "script-src-elem": ["'self'", "code.jquery.com", "cdn.jsdelivr.net", "http://localhost:3000/js/main.js", "'unsafe-inline'"],
+      "script-src-attr": ["'self'", "'unsafe-inline'"],
+      "style-src": ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net"],
+      "style-src-elem": ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net"],
+      // Fügen Sie weitere Direktiven nach Bedarf hinzu
+    },
+  })
+);
+
 app.use(compression()); // Compress all routes
 
 app.use(express.static(path.join(__dirname, "public")));
