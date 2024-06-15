@@ -24,21 +24,24 @@ exports.actor_list_get = asyncHandler(async (req, res, next) => {
     followed_actors: followedAtpActors, 
     actor_list: [],
     numberOfActors: 250,
-    howMuchActorSitesTogether: 20
+    howMuchActorSitesTogether: 20,
+    remove_followed_by_standard_follower_CHECKED: true
   });
 });
 
 // Display list of actors.
 exports.actor_list_post = asyncHandler(async (req, res, next) => {
   var actorLists = await getActorLists(req.body);
-
+  
+  var remove_followed_by_standard_follower_CHECKED = (req.body.remove_followed_by_standard_follower == 'on') ? true : false;
   res.render("actor_list", { 
     title: "Actor List", 
     followed_actors: actorLists.followedAtpActors, 
     actor_list: actorLists.actorsFinal,
     keywords: req.body.keywords,
     numberOfActors: req.body.how_much_random_actors,
-    howMuchActorSitesTogether: req.body.how_much_actor_sites_together
+    howMuchActorSitesTogether: req.body.how_much_actor_sites_together,
+    remove_followed_by_standard_follower_CHECKED: remove_followed_by_standard_follower_CHECKED
   });
 });
 
