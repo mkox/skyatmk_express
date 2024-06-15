@@ -13,7 +13,10 @@ block content
       select#followed_for_random_actors.form-control(name='followed_for_random_actors')
         option(value='') --Please select an actor--
         for actor in followed_actors
-          option(value=actor.did) #{actor.displayName}
+          if actor.did == followed_for_random_actors
+            option(value=actor.did, selected) #{actor.displayName}
+          else
+            option(value=actor.did) #{actor.displayName}
     div.form-group
       label(for='how_much_random_actors') How much random actors:
         input#how_much_random_actors.form-control(type='text', name='how_much_random_actors', value=numberOfActors )

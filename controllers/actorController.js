@@ -37,6 +37,7 @@ exports.actor_list_post = asyncHandler(async (req, res, next) => {
   var remove_followed_by_standard_follower_CHECKED = (req.body.remove_followed_by_standard_follower == 'on') ? true : false;
   res.render("actor_list", { 
     title: "Actor List", 
+    followed_for_random_actors: req.body.followed_for_random_actors,
     followed_actors: actorLists.followedAtpActors, 
     actor_list: actorLists.actorsFinal,
     keywords: req.body.keywords,
