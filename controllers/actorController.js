@@ -4,7 +4,7 @@ const FollowedAtpActor = require("../models/followed-atp-actor");
 const { body, validationResult } = require("express-validator");
 const asyncHandler = require("express-async-handler");
 
-const { getAllFollowers, getFollowedActor } = require("../lib/actor");
+const { getAllFollowers, getFollowedActor, getAndStoreFollowedByStandardActor } = require("../lib/actor");
 const { getActorLists } = require("../lib/actor-from-mongodb");
 
 exports.index = asyncHandler(async (req, res, next) => {
@@ -55,7 +55,7 @@ exports.followers_of_actor_get = asyncHandler(async (req, res, next) => {
 
   res.render("followers_of_actor", { 
     title: "Store followers of an actor", 
-    followed_actor: ''
+    followed_actor: process.env.STANDARD_FOLLOWER_DID
   });
 });
 
@@ -64,8 +64,12 @@ exports.followers_of_actor_post = asyncHandler(async (req, res, next) => {
   //   .sort({ displayName: 1 })
   //   .exec();
 
-  var didOfFollowedActor = await getFollowedActor(req.body.followed_actor);
-  getAllFollowers(req.body.followed_actor, didOfFollowedActor);
+  if(req.body.followed_actor ==  process.env.STANDARD_FOLLOWER_DID) {
+    await getAndStoreFollowedByStandardActor();
+  } else {
+    var didOfFollowedActor = await getFollowedActor(req.body.followed_actor);
+    await getAllFollowers(req.body.followed_actor, didOfFollowedActor);
+  }
 
   res.render("followers_of_actor", { 
     title: "Store followers of an actor", 
