@@ -5,7 +5,7 @@ const { body, validationResult } = require("express-validator");
 const asyncHandler = require("express-async-handler");
 
 const { getAllFollowers, getFollowedActor, getAndStoreFollowedByStandardActor } = require("../lib/actor");
-const { getActorLists } = require("../lib/actor-from-mongodb");
+const { getActorLists, updateOpenDate } = require("../lib/actor-from-mongodb");
 
 exports.index = asyncHandler(async (req, res, next) => {
   res.render("index", {
@@ -78,4 +78,10 @@ exports.followers_of_actor_post = asyncHandler(async (req, res, next) => {
     title: "Store followers of an actor", 
     followed_actor: req.body.followed_actor
   });
+});
+
+
+exports.update_open_date_post = asyncHandler(async (req, res, next) => {
+  response = await updateOpenDate(req.body);
+  res.json(response);
 });

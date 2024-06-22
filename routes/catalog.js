@@ -22,4 +22,7 @@ router.get("/followers-of-actor", actor_controller.followers_of_actor_get);
 // POST request for form to store followers of an actor.
 router.post("/followers-of-actor", actor_controller.followers_of_actor_post);
 
+// POST request to update open date of actors.
+router.post("/update-open-date", actor_controller.update_open_date_post);
+
 module.exports = router;
