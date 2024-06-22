@@ -35,10 +35,6 @@ exports.actor_list_get = asyncHandler(async (req, res, next) => {
 exports.actor_list_post = asyncHandler(async (req, res, next) => {
   var actorLists = await getActorLists(req.body);
 
-  var all_followed_for_random_actors_CHECKED = (req.body.all_followed_for_random_actors == 'on') ? true : false;
-  var remove_followed_by_standard_follower_CHECKED = (req.body.remove_followed_by_standard_follower == 'on') ? true : false;
-  var remove_following_standard_follower_CHECKED = (req.body.remove_following_standard_follower == 'on') ? true : false;
-  var remove_once_followed_by_standard_follower_CHECKED = (req.body.remove_once_followed_by_standard_follower == 'on') ? true : false;
   res.render("actor_list", { 
     title: "Actor List", 
     followed_for_random_actors: req.body.followed_for_random_actors,
@@ -47,10 +43,11 @@ exports.actor_list_post = asyncHandler(async (req, res, next) => {
     keywords: req.body.keywords,
     numberOfActors: req.body.how_much_random_actors,
     howMuchActorSitesTogether: req.body.how_much_actor_sites_together,
-    all_followed_for_random_actors_CHECKED: all_followed_for_random_actors_CHECKED,
-    remove_followed_by_standard_follower_CHECKED: remove_followed_by_standard_follower_CHECKED,
-    remove_following_standard_follower_CHECKED: remove_following_standard_follower_CHECKED,
-    remove_once_followed_by_standard_follower_CHECKED: remove_once_followed_by_standard_follower_CHECKED,
+    all_followed_for_random_actors_CHECKED: (req.body.all_followed_for_random_actors == 'on') ? true : false,
+    remove_followed_by_standard_follower_CHECKED: (req.body.remove_followed_by_standard_follower == 'on') ? true : false,
+    remove_following_standard_follower_CHECKED: (req.body.remove_following_standard_follower == 'on') ? true : false,
+    remove_once_followed_by_standard_follower_CHECKED: (req.body.remove_once_followed_by_standard_follower == 'on') ? true : false,
+    show_despite_open_date_exists_CHECKED: (req.body.show_despite_open_date_exists == 'on') ? true : false,
   });
 });
 
