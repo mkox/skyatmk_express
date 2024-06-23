@@ -5,7 +5,7 @@ const { body, validationResult } = require("express-validator");
 const asyncHandler = require("express-async-handler");
 
 const { getAllFollowers, getFollowedActor, getAndStoreFollowedByStandardActor } = require("../lib/actor");
-const { getActorLists, updateOpenDate } = require("../lib/actor-from-mongodb");
+const { getActorLists, getFollowedByDate, getFollowedAtpActors, updateOpenDate } = require("../lib/actor-from-mongodb");
 
 exports.index = asyncHandler(async (req, res, next) => {
   res.render("index", {
@@ -15,9 +15,7 @@ exports.index = asyncHandler(async (req, res, next) => {
 
 // Display list of actors.
 exports.actor_list_get = asyncHandler(async (req, res, next) => {
-  const followedAtpActors = await FollowedAtpActor.find({})
-    .sort({ displayName: 1 })
-    .exec();
+  const followedAtpActors = await getFollowedAtpActors();
 
   res.render("actor_list", { 
     title: "Actor List", 
@@ -33,13 +31,25 @@ exports.actor_list_get = asyncHandler(async (req, res, next) => {
 
 // Display list of actors.
 exports.actor_list_post = asyncHandler(async (req, res, next) => {
-  var actorLists = await getActorLists(req.body);
+  const action = req.body.action;
+  var actorLists = {};
+  var followedAtpActors = [];
+  var actorsFinal = [];
+  if (action == 'mainForm') {
+    actorLists = await getActorLists(req.body);
+    followedAtpActors = actorLists.followedAtpActors;
+    actorsFinal = actorLists.actorsFinal
+  } else if (action == 'dateRange') {
+    actorLists = await getFollowedByDate(req.body);
+    followedAtpActors = actorLists.followedAtpActors;
+    actorsFinal = actorLists.actorsFinal
+  }
 
   res.render("actor_list", { 
     title: "Actor List", 
     followed_for_random_actors: req.body.followed_for_random_actors,
-    followed_actors: actorLists.followedAtpActors, 
-    actor_list: actorLists.actorsFinal,
+    followed_actors: followedAtpActors, 
+    actor_list: actorsFinal,
     keywords: req.body.keywords,
     numberOfActors: req.body.how_much_random_actors,
     howMuchActorSitesTogether: req.body.how_much_actor_sites_together,
@@ -48,6 +58,8 @@ exports.actor_list_post = asyncHandler(async (req, res, next) => {
     remove_following_standard_follower_CHECKED: (req.body.remove_following_standard_follower == 'on') ? true : false,
     remove_once_followed_by_standard_follower_CHECKED: (req.body.remove_once_followed_by_standard_follower == 'on') ? true : false,
     show_despite_open_date_exists_CHECKED: (req.body.show_despite_open_date_exists == 'on') ? true : false,
+    following_start_date: req.body.following_start_date,
+    following_end_date: req.body.following_end_date,
   });
 });
 
