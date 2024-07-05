@@ -77,6 +77,9 @@ exports.followers_of_actor_get = asyncHandler(async (req, res, next) => {
 exports.followers_of_actor_post = asyncHandler(async (req, res, next) => {
   var didOfFollowedActor = await getFollowedActor(req.body.followed_actor);
   await getAllFollowers(req.body.followed_actor, didOfFollowedActor);
+  if(req.body.followed_actor ==  process.env.STANDARD_FOLLOWER_DID) {
+    await getAndStoreFollowedByStandardActor();
+  }
 
   res.render("followers_of_actor", { 
     title: "Store followers of an actor", 
