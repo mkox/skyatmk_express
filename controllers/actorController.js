@@ -75,23 +75,14 @@ exports.followers_of_actor_get = asyncHandler(async (req, res, next) => {
 });
 
 exports.followers_of_actor_post = asyncHandler(async (req, res, next) => {
-  // const followedAtpActors = await FollowedAtpActor.find({})
-  //   .sort({ displayName: 1 })
-  //   .exec();
-
-  if(req.body.followed_actor ==  process.env.STANDARD_FOLLOWER_DID) {
-    await getAndStoreFollowedByStandardActor();
-  } else {
-    var didOfFollowedActor = await getFollowedActor(req.body.followed_actor);
-    await getAllFollowers(req.body.followed_actor, didOfFollowedActor);
-  }
+  var didOfFollowedActor = await getFollowedActor(req.body.followed_actor);
+  await getAllFollowers(req.body.followed_actor, didOfFollowedActor);
 
   res.render("followers_of_actor", { 
     title: "Store followers of an actor", 
     followed_actor: req.body.followed_actor
   });
 });
-
 
 exports.update_open_date_post = asyncHandler(async (req, res, next) => {
   response = await updateOpenDate(req.body);
