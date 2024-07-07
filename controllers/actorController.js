@@ -58,6 +58,7 @@ exports.actor_list_post = asyncHandler(async (req, res, next) => {
     remove_following_standard_follower_CHECKED: (req.body.remove_following_standard_follower == 'on') ? true : false,
     remove_once_followed_by_standard_follower_CHECKED: (req.body.remove_once_followed_by_standard_follower == 'on') ? true : false,
     show_despite_open_date_exists_CHECKED: (req.body.show_despite_open_date_exists == 'on') ? true : false,
+    sort_by_in_how_much_selected_followed_actors_CHECKED: (req.body.sort_by_in_how_much_selected_followed_actors == 'on') ? true : false,
     following_start_date: req.body.following_start_date,
     following_end_date: req.body.following_end_date,
   });

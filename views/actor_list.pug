@@ -36,6 +36,9 @@ block content
       input#remove_once_followed_by_standard_follower.checkbox-input(type='checkbox', name='remove_once_followed_by_standard_follower', checked=remove_once_followed_by_standard_follower_CHECKED)
       label(for='remove_once_followed_by_standard_follower') &nbsp;Remove actors once followed by standard follower.
       br
+      input#sort_by_in_how_much_selected_followed_actors.checkbox-input(type='checkbox', name='sort_by_in_how_much_selected_followed_actors', checked=sort_by_in_how_much_selected_followed_actors_CHECKED)
+      label(for='sort_by_in_how_much_selected_followed_actors') &nbsp;Sort by in how much selected followed actors.
+      br
       input#show_despite_open_date_exists.checkbox-input(type='checkbox', name='show_despite_open_date_exists', checked=show_despite_open_date_exists_CHECKED)
       label(for='show_despite_open_date_exists') &nbsp;Show actors despite open date exists.
     button.btn.btn-primary(type='submit', name='action', value='mainForm') Submit
@@ -67,8 +70,8 @@ block content
         if (i+1) % howMuchActorSitesTogether == 0 || i == (actor_list.length - 1)
           input.button-user-sites(type=button, value=i+1, onclick="open_win(this)")
     ul
-      each actor in actor_list
-        li #{actor.actor.displayName} - #{actor.actor.description}
+      each actor, i in actor_list
+        li #{i+1} - #{actor.followedDids.length} - #{actor.actor.displayName} - #{actor.actor.description}
 
   else
     p There are no actors.
